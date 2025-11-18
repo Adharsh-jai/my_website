@@ -2,47 +2,49 @@ pipeline {
     agent any
 
     stages {
-
         stage('Clone Repository') {
             steps {
                 echo "Cloning GitHub repository..."
-                git branch: 'main', url: 'https://github.com/Adharsh-jai/my_website.git'
+                git url: 'https://github.com/Adharsh-jai/my_website.git', branch: 'main'
             }
         }
 
         stage('Check Files') {
             steps {
                 echo "Listing project files..."
-                bat 'dir'
+                bat "dir"
             }
         }
 
         stage('Build Website') {
             steps {
                 echo "Building website files..."
+                bat '''
+                    if exist my_build rmdir /S /Q my_build
+                    mkdir my_build
 
-                // Create clean build folder
-                bat 'if exist my_build rmdir /S /Q my_build'
-                bat 'mkdir my_build'
+                    echo Copying HTML file...
+                    copy index.html my_build\\
 
-                // Copy only website files
-                bat 'copy index.html my_build\\'
-                bat 'copy *.css my_build\\ 2>nul'
-                bat 'copy *.js my_build\\ 2>nul'
+                    echo Copying CSS files if exist...
+                    if exist *.css copy *.css my_build\\
+
+                    echo Copying JS files if exist...
+                    if exist *.js copy *.js my_build\\
+                '''
             }
         }
 
         stage('Deploy Website') {
             steps {
-                echo "Deploying website to server folder..."
-                bat 'xcopy my_build C:\\inetpub\\wwwroot /E /I /Y'
+                echo "🎉 Deployment successful (simulation only)"
             }
         }
     }
 
     post {
         success {
-            echo "🎉 Deployment Successful!"
+            echo "✅ Pipeline completed successfully!"
         }
         failure {
             echo "❌ Deployment Failed!"
