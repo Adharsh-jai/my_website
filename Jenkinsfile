@@ -20,8 +20,15 @@ pipeline {
         stage('Build Website') {
             steps {
                 echo "Building website files..."
-                bat 'if exist build rmdir /S /Q build'
-                bat 'xcopy .\\ my_build /E /I /Y'
+
+                // Create clean build folder
+                bat 'if exist my_build rmdir /S /Q my_build'
+                bat 'mkdir my_build'
+
+                // Copy only website files
+                bat 'copy index.html my_build\\'
+                bat 'copy *.css my_build\\ 2>nul'
+                bat 'copy *.js my_build\\ 2>nul'
             }
         }
 
