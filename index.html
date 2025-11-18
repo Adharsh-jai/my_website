@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Jenkins Project</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            margin-top: 100px;
+            background-color: #f0f0f0;
+        }
+        h1 { 
+            color: #333; 
+        }
+        .jenkins-badge {
+            background-color: #d33838;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello World! 🎉</h1>
+    <p>This page was automatically deployed by Jenkins!</p>
+    <div class="jenkins-badge">
+        Powered by Jenkins
+    </div>
+    <p><small>Deployed on: <span id="date"></span></small></p>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
